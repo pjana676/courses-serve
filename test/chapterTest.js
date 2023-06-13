@@ -8,7 +8,8 @@ const expect = chai.expect;
 describe('Chapter API', () => {
     describe('GET /api/courses/:courseId/chapters/', () => {
         it('should get the chapters for a specific course', (done) => {
-            const courseId = '64882c879fb8f7515020073c';
+            const courseId = null;
+            expect(courseId, 'Please assign the valid `courseId`!').to.not.null;
 
             chai
                 .request(app)
@@ -25,8 +26,10 @@ describe('Chapter API', () => {
 
     describe('GET /api/courses/:courseId/chapters/:chapterId', () => {
         it('should get specific chapter information', (done) => {
-            const courseId = '64882c879fb8f7515020073c';
-            const chapterId = '64882c879fb8f75150200746';
+            const courseId = null;
+            const chapterId = null;
+            expect(courseId, 'Please assign the valid `courseId`!').to.not.null;
+            expect(chapterId, 'Please assign the valid `chapterId`!').to.not.null;
 
             chai
                 .request(app)
@@ -43,8 +46,10 @@ describe('Chapter API', () => {
 
     describe('POST /api/courses/:courseId/chapters/:chapterId/rate', () => {
         it('should rate a specific chapter', (done) => {
-            const courseId = '64882c879fb8f7515020073c';
-            const chapterId = '64882c879fb8f75150200746';
+            const courseId = null;
+            const chapterId = null;
+            expect(courseId, 'Please assign the valid `courseId`!').to.not.null;;
+            expect(chapterId, 'Please assign the valid `chapterId`!').to.not.null;
             const body = {
                 "rating": 4
             };

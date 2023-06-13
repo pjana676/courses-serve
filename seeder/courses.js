@@ -18,21 +18,22 @@ const seederExecution = async () => {
     await courseModel.deleteMany({});
 
     // create course collection
-    courseJson.map(async (d) => {
+    await courseJson.map(async (d) => {
         d.title = d.name;
         delete d.name;
+        
         const newCourse = new courseModel(d)
         return await newCourse.save();
     });
-    return `Collection: ${courseModel.collection.modelName}, Successfully added.`
+    return `Collection: '${courseModel.collection.modelName}', Successfully added.`
 };
 
 seederExecution()
     .then((response) => {
         console.log(response)
-        process.exit(1);
+        setTimeout(process.exit, 1000)
     })
     .catch((error) => {
         console.error("Error:", error);
-        process.exit(1);
+        process.exit();
     });

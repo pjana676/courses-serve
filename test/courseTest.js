@@ -23,7 +23,8 @@ describe('Courses API', () => {
 
     describe('GET /api/courses/:courseId', () => {
         it('should get the course overview', (done) => {
-            const courseId = '64882c879fb8f7515020073c';
+            const courseId = null;
+            expect(courseId, 'Please assign the valid `courseId`!').to.not.null;;
 
             chai
                 .request(app)
@@ -37,5 +38,4 @@ describe('Courses API', () => {
                 });
         });
     });
-
 });

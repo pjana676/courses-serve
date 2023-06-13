@@ -53,10 +53,5 @@ var coursesSchema = new Schema({
     }
 })
 
-coursesSchema.index(
-    { title: 1 },
-    { unique: true }
-);
-
 
 module.exports = connection.model('courses', coursesSchema);
