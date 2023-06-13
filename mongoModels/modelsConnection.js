@@ -1,10 +1,10 @@
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.DB_URI, function (error) {
-    if (error) {
-        console.log(error);
-    }
-});
-module.exports = {
-    mongoose:mongoose
-}
+const { DB_USERNAME, DB_PASSWORD, DB_URI } = process.env;
+
+const mongoOptions = {
+    user: DB_USERNAME,
+    pass: DB_PASSWORD,
+};
+
+module.exports = mongoose.createConnection(DB_URI, mongoOptions)

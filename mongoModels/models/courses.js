@@ -1,6 +1,5 @@
-var mongoose=require('./../modelsConnection').mongoose
-var Schema =mongoose.Schema;
-
+var connection = require('./../modelsConnection')
+const { Schema } = require('mongoose');
 
 
 /*
@@ -9,45 +8,70 @@ var Schema =mongoose.Schema;
  * that we can use through another file
  */
 var coursesSchema = new Schema({
-    name:{
+    name: {
         type: String,
         default: ""
     },
-    date:{
+    date: {
+        type: Date,
+        set: d => new Date(d * 1000)
+    },
+    dateAsNumber: {
+        type: Number,
+        set: d => new Date(d * 1000)
+    },
+    description: {
         type: String,
         default: ""
     },
-    description:{
-        type: String,
-        default: ""
-    },
-    domain:[{
+    domain: [{
         type: String,
         default: ""
     }],
-    chapters:[{
-        name:{
-            type:String,
-            default:''
+    chapters: [{
+        name: {
+            type: String,
+            default: ''
         },
-        text:{
-            type:String,
-            default:''
+        text: {
+            type: String,
+            default: ''
+        },
+        rating: {
+            type: Number,
+            default: 0
         },
     }],
-    is_active:{
+    isActive: {
         type: Boolean,
         default: true
     },
-    created_at:{
+    createdAt: {
         type: Date,
         default: Date.now
     },
-    update_at: {
+    updateAt: {
         type: Date,
         default: Date.now
     }
 })
 
+coursesSchema.index(
+    { dateAsNumber: 1 },
+    { unique: true }
+);
 
-module.exports=mongoose.model('courses', coursesSchema);
+
+// pre hook to hash plain password
+coursesSchema.pre('save', function savePreHook(next) {
+    if (this.isNew) {
+        const user = this;
+        user.dateAsNumber = user.date
+        // continue
+        next();
+    } else {
+        next();
+    }
+});
+
+module.exports = connection.model('courses', coursesSchema);
