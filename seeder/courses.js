@@ -13,27 +13,19 @@ const { courseModel } = require('../mongoModels');
 
 const courseJson = require('./courses.json');
 
-const seederExecution = async () => {
+(async () => {
     // clean previous entries
     await courseModel.deleteMany({});
 
     // create course collection
-    await courseJson.map(async (d) => {
+    const promises = courseJson.map(async (d) => {
         d.title = d.name;
         delete d.name;
         
         const newCourse = new courseModel(d)
         return await newCourse.save();
     });
-    return `Collection: '${courseModel.collection.modelName}', Successfully added.`
-};
-
-seederExecution()
-    .then((response) => {
-        console.log(response)
-        setTimeout(process.exit, 1000)
-    })
-    .catch((error) => {
-        console.error("Error:", error);
-        process.exit();
-    });
+    await Promise.all(promises);
+    console.log(`Collection: '${courseModel.collection.modelName}', Successfully added.`)
+    setTimeout(process.exit(0));
+})();
