@@ -4,8 +4,16 @@ const { courseModel } = require('../mongoModels');
  * Fetch Courses from Course collection, or can filter on domain [optional]
  *  */
 const getCourses = async ({ sort_by, qFilter }) => {
+    let sort = {};
+    if (sort_by === 'date') {
+        sort = { date: -1 }; // descending by date
+    } else if (sort_by === 'rating') {
+        sort = { 'chapters.rating': -1 }; // descending by rating within chapters
+    } else {
+        sort = { [sort_by]: 1 };
+    }
     const fetchedCourses = await courseModel.find(qFilter)
-        .sort({ [sort_by]: 1 })
+        .sort(sort)
         .lean();
     return fetchedCourses;
 };
@@ -27,7 +35,7 @@ const getCourseById = async ({ courseId }) => {
  *  */
 const getChapterList = async ({ courseId }) => {
     const chapterObject = await courseModel.findOne(
-        { 
+        {
             _id: courseId
         }
     ).lean();
@@ -45,7 +53,7 @@ const getChapterList = async ({ courseId }) => {
  *  */
 const getChapterInfo = async ({ courseId, chapterId }) => {
     const chapterObject = await courseModel.findOne(
-        { 
+        {
             _id: courseId,
             'chapters._id': chapterId
         },

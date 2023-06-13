@@ -8,16 +8,13 @@ const { Schema } = require('mongoose');
  * that we can use through another file
  */
 var coursesSchema = new Schema({
-    name: {
+    title: {
         type: String,
-        default: ""
+        default: "",
+        required: true
     },
     date: {
         type: Date,
-        set: d => new Date(d * 1000)
-    },
-    dateAsNumber: {
-        type: Number,
         set: d => new Date(d * 1000)
     },
     description: {
@@ -57,21 +54,9 @@ var coursesSchema = new Schema({
 })
 
 coursesSchema.index(
-    { dateAsNumber: 1 },
+    { title: 1 },
     { unique: true }
 );
 
-
-// pre hook to hash plain password
-coursesSchema.pre('save', function savePreHook(next) {
-    if (this.isNew) {
-        const user = this;
-        user.dateAsNumber = user.date
-        // continue
-        next();
-    } else {
-        next();
-    }
-});
 
 module.exports = connection.model('courses', coursesSchema);

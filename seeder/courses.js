@@ -10,19 +10,29 @@ if (envFilePath.startsWith('/') === false) {
 require('dotenv').config({ path: envFilePath });
 
 const { courseModel } = require('../mongoModels');
-console.log(`Model: ${courseModel.collection.modelName}`)
+
 const courseJson = require('./courses.json');
 
-(async () => {
+const seederExecution = async () => {
     // clean previous entries
     await courseModel.deleteMany({});
 
     // create course collection
     courseJson.map(async (d) => {
+        d.title = d.name;
+        delete d.name;
         const newCourse = new courseModel(d)
         return await newCourse.save();
     });
+    return `Collection: ${courseModel.collection.modelName}, Successfully added.`
+};
 
-})();
-
-console.log('Seeder successfully added.');
+seederExecution()
+    .then((response) => {
+        console.log(response)
+        process.exit(1);
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+        process.exit(1);
+    });

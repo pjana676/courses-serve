@@ -1,5 +1,5 @@
 
-var mongoose = require('mongoose');
+var { mongoose } = require('mongoose');
 const { DB_USERNAME, DB_PASSWORD, DB_URI } = process.env;
 
 const mongoOptions = {
