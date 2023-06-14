@@ -20,6 +20,13 @@ DB_USERNAME=
 DB_PASSWORD=
 ```
 
+In one-line commend to run the project through docker container is -
+```
+docker compose up
+```
+
+else you can run it through manual setup like below steps - 
+
 to populate the exiting course data which in `courses.json`, you need to run command -
 ```
 npm run set
