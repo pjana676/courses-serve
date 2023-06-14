@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  node-app:
+    build: .
+    environment:
+      - DB_URI=mongodb://mongo:27017
+    image: courses_serve
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata:

@@ -4,8 +4,9 @@
   "description": "implementing a back-end API to serve courses. This API will be responsible for handling requests from the front-end application, retrieving course information from MongoDB, and returning the relevant data in a standardized format.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo npx mocha test/courseTest.js && npx mocha test/chapterTest.js  && exit 1",
+    "start": "node server.js",
+    "set": "node seeder/courses.js"
   },
   "keywords": [],
   "author": "",

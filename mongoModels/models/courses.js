@@ -1,5 +1,6 @@
-var connection = require('./../modelsConnection')
-const { Schema } = require('mongoose');
+require('./../modelsConnection')()
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 
 /*
@@ -53,10 +54,5 @@ var coursesSchema = new Schema({
     }
 })
 
-coursesSchema.index(
-    { title: 1 },
-    { unique: true }
-);
 
-
-module.exports = connection.model('courses', coursesSchema);
+module.exports = mongoose.model('courses', coursesSchema);
